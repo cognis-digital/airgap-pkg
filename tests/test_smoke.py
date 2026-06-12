@@ -1,6 +1,6 @@
 import shutil
 from pathlib import Path
-from airgap_pkg.core import build_package, verify_package, build_bom, sha256_file
+from airgap_pkg.core import build_package, verify_package, build_bom
 
 DEMOS_SRC = Path(__file__).parent.parent / "demos" / "src"
 

@@ -70,7 +70,7 @@ These are emitted in JSON, SARIF, and the OSCAL skeleton.
 ```yaml
 - name: airgap-pkg scan
   run: |
-    pip install cognis-airgap-pkg
+    pip install "git+https://github.com/cognis-digital/airgap-pkg.git"
     airgap-pkg . --format=oscal --out=assessment-results.json --fail-on=high
 - name: Upload to eMASS/Xacta
   run: cognis-rmf-package import assessment-results.json

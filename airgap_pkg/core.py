@@ -5,7 +5,7 @@ No network calls. Verifies BOM + SHA-256 + (optional) GPG sig before
 install. Designed for SIPR/JWICS-style sneakernet transfer.
 """
 from __future__ import annotations
-import hashlib, json, os, shutil, subprocess, tarfile, time
+import hashlib, json, subprocess, tarfile, time
 from pathlib import Path
 from cognis_mil import ScanResult, Finding, Severity
 
