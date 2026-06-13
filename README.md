@@ -5,6 +5,12 @@
 
 > Build deterministic, signed, BOM-attested tarballs. Verify before install on any high-side network.
 
+<!-- cognis:layman:start -->
+## What is this?
+
+airgap-pkg is a command-line tool that packages software for transfer onto networks that have no internet access — such as classified government systems where files must be physically carried in on a USB drive or hard disk. It bundles your files into a single archive, generates a tamper-proof fingerprint and file inventory, and lets the recipient verify that nothing was changed in transit before installation. It is designed for IT administrators and security engineers working in air-gapped military, intelligence, or government environments where software must be delivered and verified without any network connection.
+<!-- cognis:layman:end -->
+
 ## Upstream
 
 Forks / wraps **(original)**. See [`UPSTREAM.md`](./UPSTREAM.md) for the
@@ -17,6 +23,42 @@ licensing posture, supported commits, and how to upgrade.
 - SHA-256 self-check
 - GPG signature verification (when operator provides key)
 - Sneakernet-friendly: zero network calls
+
+<!-- cognis:install:start -->
+## Install
+
+`airgap-pkg` is source-available (not published to PyPI) — every method below installs
+straight from GitHub. Pick whichever you prefer; the one-line scripts auto-detect
+the best tool available on your machine.
+
+**One-liner (Linux / macOS):**
+```sh
+curl -fsSL https://raw.githubusercontent.com/cognis-digital/airgap-pkg/HEAD/install.sh | sh
+```
+
+**One-liner (Windows PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/cognis-digital/airgap-pkg/HEAD/install.ps1 | iex
+```
+
+**Or install manually — any one of:**
+```sh
+pipx install "git+https://github.com/cognis-digital/airgap-pkg.git"     # isolated (recommended)
+uv tool install "git+https://github.com/cognis-digital/airgap-pkg.git"  # uv
+pip install "git+https://github.com/cognis-digital/airgap-pkg.git"      # pip
+```
+
+**From source:**
+```sh
+git clone https://github.com/cognis-digital/airgap-pkg.git
+cd airgap-pkg && pip install .
+```
+
+Then run:
+```sh
+airgap-pkg --help
+```
+<!-- cognis:install:end -->
 
 ## Install
 
