@@ -5,6 +5,33 @@
 
 > Build deterministic, signed, BOM-attested tarballs. Verify before install on any high-side network.
 
+## Usage — step by step
+
+1. **Install** the shared library once, then this tool:
+   ```bash
+   pip install -e ../../shared    # ecosystem shared lib (once)
+   pip install -e .               # airgap-pkg
+   ```
+2. **Build a sneakernet package** from a source directory. `build` is the first positional action; `-o/--output` names the tarball:
+   ```bash
+   airgap-pkg build demos/src -o demos/out.tar
+   ```
+3. **Verify a received tarball** on the destination (airgapped) side:
+   ```bash
+   airgap-pkg verify demos/out.tar
+   ```
+4. **Read the output** as JSON for tooling (the default action is `scan`; `--format` is `console` or `json`):
+   ```bash
+   airgap-pkg verify demos/out.tar --format json
+   echo $?    # non-zero on a failed verification
+   ```
+5. **Automate in CI** — build the transfer package and gate the pipeline on a clean verify:
+   ```yaml
+   - run: pip install -e ../../shared && pip install -e .
+   - run: airgap-pkg build . -o transfer.tar
+   - run: airgap-pkg verify transfer.tar --format json
+   ```
+
 ## Upstream
 
 Forks / wraps **(original)**. See [`UPSTREAM.md`](./UPSTREAM.md) for the
