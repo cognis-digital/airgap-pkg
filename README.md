@@ -82,3 +82,40 @@ These are emitted in JSON, SARIF, and the OSCAL skeleton.
 Apache-2.0 unless stated otherwise.
 
 See [the master index](../../MASTER-INDEX.md).
+
+<a name="verification"></a>
+## Verification
+
+[![tests](https://img.shields.io/badge/tests-3%20passing-2ea44f.svg)](AUDIT.md)
+
+Every push is verified end-to-end. Latest audit (2026-06-13):
+
+```text
+tests        : 3 passed, 0 failed, 0 errored
+compile      : all modules parse
+cli          : airgap-pkg 0.1.0
+package      : airgap_pkg
+```
+
+<details><summary>CLI surface (<code>--help</code>)</summary>
+
+```text
+usage: airgap-pkg [-h] [-o OUTPUT] [--format {console,json}] [-v]
+                  [{build,verify,scan}] [source]
+
+positional arguments:
+  {build,verify,scan}
+  source                Source dir (build) or tarball (verify)
+
+options:
+  -h, --help            show this help message and exit
+  -o, --output OUTPUT   Output tarball path (build)
+  --format {console,json}
+  -v, --version         show program's version number and exit
+```
+</details>
+
+Full machine-readable results: [`AUDIT.md`](AUDIT.md) · regenerate with `python -m airgap_pkg --help` + `pytest -q`.
+
+<div align="right"><a href="#top">↑ back to top</a></div>
+
