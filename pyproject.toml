@@ -23,3 +23,6 @@ airgap-pkg = "airgap_pkg.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["airgap_pkg", "cognis_mil"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
