@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cognis-airgap-pkg"
-version = "0.1.0"
+version = "0.1.1"
 description = "Self-contained installer for airgapped (SIPR/JWICS-style) environments"
 license = { text = "LicenseRef-COCL-1.0" }
 requires-python = ">=3.10"
@@ -14,9 +14,11 @@ keywords = ["military","ic","dod","cognis-digital","airgap-pkg"]
 dependencies = []
 
 [project.optional-dependencies]
+connect = ["cognis-connect @ git+https://github.com/cognis-digital/cognis-connect.git"]
 dev = ["pytest>=8.0", "pytest-cov"]
 
 [project.scripts]
+"airgap-pkg-emit" = "airgap_pkg.connect:emit_main"
 airgap-pkg = "airgap_pkg.cli:main"
 
 [tool.hatch.build.targets.wheel]
