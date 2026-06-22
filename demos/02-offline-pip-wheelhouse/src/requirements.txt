@@ -1,0 +1,8 @@
+# Pinned, hash-checked wheelhouse for an airgapped analyst workstation.
+# Build on the low side with:
+#   pip download -r requirements.txt -d wheelhouse/ --only-binary=:all:
+requests==2.32.3
+urllib3==2.2.2
+certifi==2024.7.4
+charset-normalizer==3.3.2
+idna==3.7

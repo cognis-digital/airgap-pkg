@@ -1,0 +1,6 @@
+---
+- name: Apply RHEL 9 STIG CAT I/II baseline
+  hosts: all
+  become: true
+  roles:
+    - stig

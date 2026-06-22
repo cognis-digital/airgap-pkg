@@ -55,22 +55,45 @@ pip install -e ../../shared
 pip install -e .
 ```
 
-## Demo
+## Demos
+
+Nine end-to-end, real-input-format scenarios live under [`demos/`](./demos/)
+— each with its own `SCENARIO.md` (provenance, exact command, expected output,
+how to act). See the [demo index](./demos/SCENARIO.md). Highlights:
+
+| # | Demo | Shows |
+|---|------|-------|
+| 01 | [STIG baseline transfer](./demos/01-stig-baseline-transfer/) | build + verify a DISA RHEL 9 STIG role |
+| 02 | [Offline pip wheelhouse](./demos/02-offline-pip-wheelhouse/) | ship hash-pinned deps with zero network |
+| 03 | [Container image bundle](./demos/03-container-image-bundle/) | seed an offline registry |
+| 04 | [Tampered tarball](./demos/04-tamper-detected-incoming/) | SHA-256 mismatch is caught |
+| 05 | [Missing checksum](./demos/05-missing-checksum-incoming/) | reject a package with no `.sha256` |
+| 06 | [Injected file](./demos/06-bom-mismatch-incoming/) | BOM catches an undeclared file the checksum can't |
+| 07 | [Firmware update](./demos/07-firmware-update-package/) | two-layer integrity (vendor + BOM) |
+| 08 | [Multi-package scan + CI gate](./demos/08-multi-package-scan-dir/) | triage a drop dir, fail CI on bad packages |
+| 09 | [Classification banner](./demos/09-classified-banner-briefing/) | `--classification` threaded into every format |
 
 ```bash
-airgap-pkg build demos/src -o demos/out.tar
-airgap-pkg verify demos/out.tar
+airgap-pkg build demos/01-stig-baseline-transfer/src -o /tmp/out.tar
+airgap-pkg verify /tmp/out.tar
 ```
 
-Outputs are available in five formats — all respect an operator-supplied
-classification banner (passed via `--classification`):
+`verify` and `scan` outputs are available in five formats — all respect an
+operator-supplied classification banner (`--classification`):
 
 ```bash
-airgap-pkg <target> --format=console     # default
-airgap-pkg <target> --format=json
-airgap-pkg <target> --format=sarif       # for code-scanning pipelines
-airgap-pkg <target> --format=markdown    # for PRs / briefings
-airgap-pkg <target> --format=oscal       # OSCAL Assessment Results skeleton
+airgap-pkg <target> --format console      # default
+airgap-pkg <target> --format json
+airgap-pkg <target> --format sarif        # for code-scanning pipelines
+airgap-pkg <target> --format markdown     # for PRs / briefings
+airgap-pkg <target> --format oscal        # OSCAL Assessment Results skeleton
+```
+
+Gate a pipeline on package integrity with `--fail-on` (exits non-zero when any
+finding is at or above the given severity):
+
+```bash
+airgap-pkg scan ./inbound --fail-on high   # exit 1 if any package fails to verify
 ```
 
 ## Classification banner
@@ -98,7 +121,7 @@ These are emitted in JSON, SARIF, and the OSCAL skeleton.
 - name: airgap-pkg scan
   run: |
     pip install cognis-airgap-pkg
-    airgap-pkg . --format=oscal --out=assessment-results.json --fail-on=high
+    airgap-pkg scan ./inbound --format oscal --fail-on high > assessment-results.json
 - name: Upload to eMASS/Xacta
   run: cognis-rmf-package import assessment-results.json
 ```

@@ -1,0 +1,23 @@
+---
+# RHEL 9 STIG remediations (subset). Rule IDs are from the public DISA benchmark.
+- name: RHEL-09-211010 - Verify Red Hat GPG key is installed
+  ansible.builtin.command: rpm -q gpg-pubkey
+  changed_when: false
+
+- name: RHEL-09-271010 - Disable Ctrl-Alt-Del burst action
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/system.conf
+    regexp: '^#?CtrlAltDelBurstAction'
+    line: 'CtrlAltDelBurstAction=none'
+
+- name: RHEL-09-411010 - Set password minimum lifetime to 1 day
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_MIN_DAYS'
+    line: 'PASS_MIN_DAYS 1'
+
+- name: RHEL-09-412035 - Lock account after 3 failed logon attempts
+  ansible.builtin.lineinfile:
+    path: /etc/security/faillock.conf
+    regexp: '^#?deny'
+    line: 'deny = 3'

@@ -21,7 +21,10 @@ def build_bom(source_dir: Path) -> dict:
     for f in sorted(source_dir.rglob("*")):
         if not f.is_file(): continue
         if any(part in (".git","__pycache__",".venv","node_modules") for part in f.parts): continue
-        rel = str(f.relative_to(source_dir))
+        if f.name == "BOM.json": continue  # never list the manifest inside itself
+        # POSIX-style relative path so BOMs are identical across OSes and match
+        # tar member names (tar always uses forward slashes).
+        rel = f.relative_to(source_dir).as_posix()
         entries.append({
             "path": rel,
             "size": f.stat().st_size,
@@ -92,7 +95,8 @@ def verify_package(tar_path: Path, gpg_sig: Path = None, gpg_key_id: str = None)
 
 def scan(target=".", **opts):
     """Scan a directory of `*.tar` / `*.tar.sha256` packages and verify each."""
-    r = ScanResult(tool_name="airgap-pkg", tool_version="0.1.0")
+    from . import __version__
+    r = ScanResult(tool_name="airgap-pkg", tool_version=__version__)
     p = Path(target)
     tars = list(p.glob("*.tar")) if p.is_dir() else ([p] if p.suffix == ".tar" else [])
     r.items_scanned = len(tars)

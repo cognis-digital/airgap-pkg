@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cognis-airgap-pkg"
-version = "0.1.1"
+version = "0.1.2"
 description = "Self-contained installer for airgapped (SIPR/JWICS-style) environments"
 license = { text = "LicenseRef-COCL-1.0" }
 requires-python = ">=3.10"
