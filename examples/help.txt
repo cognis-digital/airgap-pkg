@@ -1,0 +1,23 @@
+$ airgap-pkg-emit --help
+
+usage: airgap-pkg [-h] [-o OUTPUT]
+                  [--format {console,json,sarif,markdown,oscal}]
+                  [--classification CLASSIFICATION]
+                  [--fail-on {very_low,low,moderate,high,very_high}] [-v]
+                  [{build,verify,scan}] [source]
+
+positional arguments:
+  {build,verify,scan}
+  source                Source dir (build) or tarball/dir (verify/scan)
+
+options:
+  -h, --help            show this help message and exit
+  -o, --output OUTPUT   Output tarball path (build)
+  --format {console,json,sarif,markdown,oscal}
+  --classification CLASSIFICATION
+                        Operator-supplied classification banner (placeholder
+                        shape only)
+  --fail-on {very_low,low,moderate,high,very_high}
+                        Exit non-zero if any finding is at or above this
+                        severity
+  -v, --version         show program's version number and exit

@@ -5,6 +5,87 @@
 
 > Build deterministic, signed, BOM-attested tarballs. Verify before install on any high-side network.
 
+
+<!-- cognis:example:start -->
+## 🔎 Example output
+
+Real, reproducible output from the tool — runs offline:
+
+```console
+$ airgap-pkg-emit --version
+airgap-pkg 0.1.2
+```
+
+```console
+$ airgap-pkg-emit --help
+usage: airgap-pkg [-h] [-o OUTPUT]
+                  [--format {console,json,sarif,markdown,oscal}]
+                  [--classification CLASSIFICATION]
+                  [--fail-on {very_low,low,moderate,high,very_high}] [-v]
+                  [{build,verify,scan}] [source]
+
+positional arguments:
+  {build,verify,scan}
+  source                Source dir (build) or tarball/dir (verify/scan)
+
+options:
+  -h, --help            show this help message and exit
+  -o, --output OUTPUT   Output tarball path (build)
+  --format {console,json,sarif,markdown,oscal}
+  --classification CLASSIFICATION
+                        Operator-supplied classification banner (placeholder
+                        shape only)
+  --fail-on {very_low,low,moderate,high,very_high}
+                        Exit non-zero if any finding is at or above this
+                        severity
+  -v, --version         show program's version number and exit
+```
+
+> Blocks above are real `airgap-pkg` output — reproduce them from a clone.
+
+**Sample result format** _(illustrative values — run on your own data for real findings):_
+
+```
+{
+"timestamp": "2023-02-15T14:30:00Z",
+"findings": [
+    {
+        "id": "1234567890",
+        "title": "Suspicious Network Traffic",
+        "description": "Potential malicious activity detected on port 443.",
+        "labels": ["network", "suspicious"],
+        "objects": [
+            {
+                "id": "object-1",
+                "type": "ip",
+                "value": "192.168.1.100"
+            },
+            {
+                "id": "object-2",
+                "type": "port",
+                "value": 443
+            }
+        ]
+    },
+    {
+        "id": "2345678900",
+        "title": "Unusual File Access",
+        "description": "Unauthorized access to a sensitive file detected.",
+        "labels": ["file", "unusual"],
+        "objects": [
+            {
+                "id": "object-3",
+                "type": "file",
+                "value": "/path/to/sensitive/file"
+            }
+        ]
+    }
+]
+}
+```
+
+<!-- cognis:example:end -->
+
 ## Usage — step by step
 
 1. **Install** the shared library once, then this tool:
